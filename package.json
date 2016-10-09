@@ -6,7 +6,6 @@
   "author": "Fewshin",
   "license": "GPL",
   "dependencies": {
-    "cleverbot-node": "^0.2.2",
     "eris": "github:abalabahaha/eris",
     "express": "^4.14.0",
     "passport": "^0.3.2",

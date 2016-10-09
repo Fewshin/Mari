@@ -1,11 +1,13 @@
     {
         "token":"BOT_TOKEN_HERE",
-        "ownerid":"OWNER_ID_HERE",
+        "adminids":"[ADMIN_IDS_HERE]",
         "ownername":"OWNER_USERNAME_HERE",
         "invitelink":"BOT_INVITE_HERE",
         "botid":"BOTS_USER_ID_HERE",
         "defaultgame":"SET_GAME_HERE",
         "prefix":"PREFIX_HERE",
         "imageDirectory":"IMAGE_DIRECTORY_HERE",
-        "portListen":"PORT_THE_BOT_LISTENS_ON"
+        "portListen":"80", //Do not change unless you know what you are doing.
+        "notificationChannel":"CHANNELID_OF_CHANNEL_YOU_WANT_THE_BOT_TO_MESSAGE_INTO_WHEN_STARTING" //Can leave untouched if you don't want notifications
+        "notificationMessage":"BOT_ON_NOTIFICATION_MESSAGE"
     }

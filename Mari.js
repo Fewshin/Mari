@@ -3,7 +3,6 @@ var package = require("./package.json")
 var express = require('express');
 var app = express();
 app.use('/images', express.static(config.imageDirectory))
-var Cleverbot = require('cleverbot-node');
 var redis = require('redis')
 var client = redis.createClient({detect_buffers: true, db: 15})
 client.on('error', err => {console.log('Redis Error: ' + err)})
@@ -14,9 +13,10 @@ var bot = new Eris.CommandClient(config.token, {}, {
     prefix: config.prefix
 });
 bot.on('ready', () => {
-    console.log('It\'s Joke');
-    //bot.createMessage('156870666950279170', '```\nRestarted\n```')
-    bot.createMessage('193618929682350080', '**Localhost is active**')
+    console.log('Bot is active');
+    if (isNaN(config.notificationChannel) === false) {
+    bot.createMessage(config.notificationChannel, config.notificationMessage)}
+    console.log('Number of Admins: ' + config.adminids.length)
     bot.editGame({
         name: config.defaultgame
     })
@@ -34,24 +34,24 @@ bot.registerCommand('joke', 'http://i.imgur.com/jlVc2k7.jpg', {
 //====================================================================
 //todo.push(args[0])
 bot.registerCommand('todo', (msg ,args, todo) =>{
-    if(msg.author.id === config.ownerid){
+    if(config.adminids.indexOf(msg.author.id) > -1){
         client.sadd('todo', args.join(' '))
         return 'Todo Updated!'
     }
     else{
-        return 'Invalid User'
-    }
+        return 'You don\'t have permission to do this.'
+        }
 }, {
     description: 'Adds to todo list!',
     fullDescription: 'Add to my infinitely long todo list!'
 })
 //==================================================================
 bot.registerCommand('echo', (msg ,args) =>{
-    if(msg.author.id === config.ownerid){
+    if(config.adminids.indexOf(msg.author.id) > -1){
         return args.join(' ')
     }
     else{
-        return 'Invalid User'
+        return 'You don\'t have permission to do this.'
     }
 }, {
     description: 'm!echo',
@@ -86,5 +86,5 @@ app.get('/', function (req, res) {
 });
 
 app.listen(config.portListen, function () {
-  console.log('It\'s on you nerd');
+  console.log('Localhost is active');
 });
