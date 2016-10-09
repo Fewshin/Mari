@@ -1,0 +1,16 @@
+{
+  "name": "mari",
+  "version": "1.0.0",
+  "description": "A Discord/Express Bot",
+  "main": "Mari.js",
+  "author": "Fewshin",
+  "license": "GPL",
+  "dependencies": {
+    "cleverbot-node": "^0.2.2",
+    "eris": "github:abalabahaha/eris",
+    "express": "^4.14.0",
+    "passport": "^0.3.2",
+    "passport-oauth": "^1.0.0",
+    "redis": "^2.6.2"
+  }
+}

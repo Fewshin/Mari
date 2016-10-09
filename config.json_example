@@ -1,0 +1,11 @@
+    {
+        "token":"BOT_TOKEN_HERE",
+        "ownerid":"OWNER_ID_HERE",
+        "ownername":"OWNER_USERNAME_HERE",
+        "invitelink":"BOT_INVITE_HERE",
+        "botid":"BOTS_USER_ID_HERE",
+        "defaultgame":"SET_GAME_HERE",
+        "prefix":"PREFIX_HERE",
+        "imageDirectory":"IMAGE_DIRECTORY_HERE",
+        "portListen":"PORT_THE_BOT_LISTENS_ON"
+    }
