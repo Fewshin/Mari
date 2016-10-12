@@ -1,6 +1,6 @@
     {
         "token":"BOT_TOKEN_HERE",
-        "adminids":"[ADMIN_IDS_HERE]",
+        "adminids":["ADMIN_IDS_HERE"], //Use array formatting
         "ownername":"OWNER_USERNAME_HERE",
         "invitelink":"BOT_INVITE_HERE",
         "botid":"BOTS_USER_ID_HERE",
