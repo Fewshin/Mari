@@ -54,7 +54,7 @@ bot.registerCommand('ping', (msg,args) => {
 });
 //======================================================================
 bot.registerCommand('time', (msg,args) => {
-    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(guildName(msg)) + ' > ' + chalk.cyan.bold(msgAuthor(msg)) + ': ' + msg.content + clockstamp())
+    console.log(commandLogger(msg))
     // console.log(testtag + moment().tz(config.defaultTimezone).format())
     // console.log(testtag + moment().tz('Asia/Taipei').format())
     // var tz3 = moment().tz(config.defaultTimezone).format('hmm')
@@ -80,7 +80,7 @@ bot.registerCommand('time', (msg,args) => {
 });
 //==============================================================================
 bot.registerCommand('joke', (msg,args) => {
-    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(guildName(msg)) + ' > ' + chalk.cyan.bold(msgAuthor(msg)) + ': ' + msg.content + clockstamp())
+    console.log(commandLogger(msg))
     return 'http://i.imgur.com/jlVc2k7.jpg'
 }, { 
     description: 'It\'s Joke',
@@ -88,7 +88,7 @@ bot.registerCommand('joke', (msg,args) => {
 });
 //====================================================================
 bot.registerCommand('todo', (msg ,args) =>{
-    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(guildName(msg)) + ' > ' + chalk.cyan.bold(msgAuthor(msg)) + ': ' + msg.content + clockstamp())
+    console.log(commandLogger(msg))
     if(config.adminids.indexOf(msg.author.id) > -1){
         client.sadd('todo', args.join(' '))
         return 'Todo Updated!'
@@ -102,7 +102,7 @@ bot.registerCommand('todo', (msg ,args) =>{
 })
 //==================================================================
 bot.registerCommand('echo', (msg ,args) =>{
-    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(guildName(msg)) + ' > ' + chalk.cyan.bold(msgAuthor(msg)) + ': ' + msg.content + clockstamp())
+    console.log(commandLogger(msg))
     if(config.adminids.indexOf(msg.author.id) > -1){
         return args.join(' ')
     }
@@ -115,7 +115,7 @@ bot.registerCommand('echo', (msg ,args) =>{
 })
 //====================================================================================================================================================================================
 bot.registerCommand('stats', (msg ,args) =>{
-    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(guildName(msg)) + ' > ' + chalk.cyan.bold(msgAuthor(msg)) + ': ' + msg.content + clockstamp())
+    console.log(commandLogger(msg))
     return '__**Bot Information**__:\n' +
     '\n**Version**: ' +
     package.version +
