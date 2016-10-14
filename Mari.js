@@ -1,26 +1,31 @@
 var config = require("./config.json")
 var package = require("./package.json")
+var moment = require('moment-timezone')
+//=======================================================
 const chalk = require('chalk')
 var testtag = chalk.bgRed.bold(' Testing ') + ' '
-var moment = require('moment-timezone')
-var timestamp = chalk.green.bold(moment().tz(config.defaultTimezone).format(' > h:mm A MM/D'))
+var commandtag = chalk.bgCyan.bold(' Config ')
+//============================================================
 var session = require('express-session')
 var express = require('express');
 var app = express();
 app.use('/images', express.static(config.imageDirectory))
+//==================================================================
 var passport = require('passport')
 var OAuth2Strategy = require('passport-oauth').OAuth2Strategy
 var TwitterStrategy = require('passport-twitter').Strategy;
+//==================================================================
 var redis = require('redis')
 var client = redis.createClient({detect_buffers: true, db: 15})
-client.on('error', err => {console.log(chalk.bgRed.bold(' Redis Error ') + err)})
-const Eris = require('eris');
+client.on('error', err => {console.log(chalk.bgRed.bold(' Redis Error ') + err + clockstamp())})
+//====================================================================================
+const Eris = require('eris')
 var bot = new Eris.CommandClient(config.token, {}, {
     description: package.description,
     owner: package.author,
     prefix: config.prefix
 });
-console.log(chalk.bgBlue.bold(' System ') + ' Initiating' + timestamp)
+console.log(chalk.bgBlue.bold(' System ') + ' Initiating' + clockstamp())
 bot.on('ready', () => {
     console.log(chalk.bgGreen.bold(' Eris ') + ' Bot is active');
     if (isNaN(config.notificationChannel) === false) {
@@ -28,13 +33,20 @@ bot.on('ready', () => {
     if (config.simpleLog.toLowerCase().startsWith('no') === true){
     console.log(chalk.bgCyan.bold(' Config ') + ' Number of Admins: ' + config.adminids.length)
     console.log(chalk.bgCyan.bold(' Config ') + ' Current Timezone: ' + config.defaultTimezone)}
-    bot.editGame({
-        name: config.defaultgame
-    })
+    bot.editStatus({name: config.defaultgame})
 })
+function guildName (msg) {
+    var servername = "in PMs"
+    if(msg.guild) {servername = msg.guild.name} return servername}
+function msgAuthor (msg) {
+    return msg.author.username}
+function clockstamp () {
+    return ' >' + chalk.green.bold(moment().tz(config.defaultTimezone).format(' h:mm A MM/D'))}
+function commandLogger (msg) {
+    return chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(guildName(msg)) + ' > ' + chalk.cyan.bold(msgAuthor(msg)) + ': ' + msg.content + clockstamp()}
 //==================================================================
 bot.registerCommand('ping', (msg,args) => {
-    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(msg.channel.guild.name) + ' > ' + chalk.cyan.bold(msg.author.username) + ': ' + msg.content + timestamp)
+    console.log(commandLogger(msg))
     return 'Pong!'
 }, { 
     description: 'Pong!',
@@ -42,7 +54,7 @@ bot.registerCommand('ping', (msg,args) => {
 });
 //======================================================================
 bot.registerCommand('time', (msg,args) => {
-    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(msg.channel.guild.name) + ' > ' + chalk.cyan.bold(msg.author.username) + ': ' + msg.content + timestamp)
+    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(guildName(msg)) + ' > ' + chalk.cyan.bold(msgAuthor(msg)) + ': ' + msg.content + clockstamp())
     // console.log(testtag + moment().tz(config.defaultTimezone).format())
     // console.log(testtag + moment().tz('Asia/Taipei').format())
     // var tz3 = moment().tz(config.defaultTimezone).format('hmm')
@@ -56,9 +68,9 @@ bot.registerCommand('time', (msg,args) => {
     // }
     //else {
         if (moment.tz.zone(args.join(' ')) !== null){
-            return moment().tz(args.join(' ')).format('MMMM Do YYYY, h:mm:ss a')}
+            return moment().tz(args.join(' ')).format('MMMM Do YYYY, h:mm:ss A')}
         else if (args.join(' ') === ''){
-            return moment().tz(config.defaultTimezone).format('MMMM Do YYYY, h:mm:ss a')}
+            return moment().tz(config.defaultTimezone).format('MMMM Do YYYY, h:mm:ss A')}
         else {
             return 'Invalid Timezone, the command uses TZ timezone formatting which can be found here: http://frid.li/timezones. \nThe default timezone is: ' + config.defaultTimezone}
     //}
@@ -68,7 +80,7 @@ bot.registerCommand('time', (msg,args) => {
 });
 //==============================================================================
 bot.registerCommand('joke', (msg,args) => {
-    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(msg.channel.guild.name) + ' > ' + chalk.cyan.bold(msg.author.username) + ': ' + msg.content + timestamp)
+    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(guildName(msg)) + ' > ' + chalk.cyan.bold(msgAuthor(msg)) + ': ' + msg.content + clockstamp())
     return 'http://i.imgur.com/jlVc2k7.jpg'
 }, { 
     description: 'It\'s Joke',
@@ -76,7 +88,7 @@ bot.registerCommand('joke', (msg,args) => {
 });
 //====================================================================
 bot.registerCommand('todo', (msg ,args) =>{
-    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(msg.channel.guild.name) + ' > ' + chalk.cyan.bold(msg.author.username) + ': ' + msg.content + timestamp)
+    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(guildName(msg)) + ' > ' + chalk.cyan.bold(msgAuthor(msg)) + ': ' + msg.content + clockstamp())
     if(config.adminids.indexOf(msg.author.id) > -1){
         client.sadd('todo', args.join(' '))
         return 'Todo Updated!'
@@ -90,7 +102,7 @@ bot.registerCommand('todo', (msg ,args) =>{
 })
 //==================================================================
 bot.registerCommand('echo', (msg ,args) =>{
-    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(msg.channel.guild.name) + ' > ' + chalk.cyan.bold(msg.author.username) + ': ' + msg.content + timestamp)
+    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(guildName(msg)) + ' > ' + chalk.cyan.bold(msgAuthor(msg)) + ': ' + msg.content + clockstamp())
     if(config.adminids.indexOf(msg.author.id) > -1){
         return args.join(' ')
     }
@@ -103,7 +115,7 @@ bot.registerCommand('echo', (msg ,args) =>{
 })
 //====================================================================================================================================================================================
 bot.registerCommand('stats', (msg ,args) =>{
-    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(msg.channel.guild.name) + ' > ' + chalk.cyan.bold(msg.author.username) + ': ' + msg.content + timestamp)
+    console.log(chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(guildName(msg)) + ' > ' + chalk.cyan.bold(msgAuthor(msg)) + ': ' + msg.content + clockstamp())
     return '__**Bot Information**__:\n' +
     '\n**Version**: ' +
     package.version +
@@ -123,7 +135,7 @@ bot.registerCommand('stats', (msg ,args) =>{
 bot.connect();
 app.get('/', function (req, res) {
     client.smembers('todo', function (err, reply) {
-        if (err) { return console.log(chalk.bgRed.bold(' Express Error ') + ' ' + err); }
+        if (err) { return console.log(chalk.bgRed.bold(' Express Error ') + ' ' + err + clockstamp()); }
         res.send([
             'Todo List:',
             reply.join(', ')
