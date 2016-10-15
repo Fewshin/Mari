@@ -4,7 +4,8 @@ var moment = require('moment-timezone')
 //=======================================================
 const chalk = require('chalk')
 var testtag = chalk.bgRed.bold(' Testing ') + ' '
-var commandtag = chalk.bgCyan.bold(' Config ')
+var commandtag = chalk.bgYellow.bold(' Command ') + ' '
+var canvastag = chalk.bgCyan.bold(' Canvas ') + ' '
 //============================================================
 var session = require('express-session')
 var express = require('express');
@@ -19,6 +20,9 @@ var redis = require('redis')
 var client = redis.createClient({detect_buffers: true, db: 15})
 client.on('error', err => {console.log(chalk.bgRed.bold(' Redis Error ') + err + clockstamp())})
 //====================================================================================
+// var Canvas = require('canvas')
+// var Image = Canvas.Image
+//======================================================
 const Eris = require('eris')
 var bot = new Eris.CommandClient(config.token, {}, {
     description: package.description,
@@ -43,18 +47,42 @@ function msgAuthor (msg) {
 function clockstamp () {
     return ' >' + chalk.green.bold(moment().tz(config.defaultTimezone).format(' h:mm A MM/D'))}
 function commandLogger (msg) {
-    return chalk.bgYellow.bold(' Command ') + ' ' + chalk.magenta.bold(guildName(msg)) + ' > ' + chalk.cyan.bold(msgAuthor(msg)) + ': ' + msg.content + clockstamp()}
+    return console.log(commandtag + chalk.magenta.bold(guildName(msg)) + ' > ' + chalk.cyan.bold(msgAuthor(msg)) + ': ' + msg.content + clockstamp())}
+// function canvasImage (msg) {
+//     var canvas = new Canvas(args[0], args[1])
+//     var ctx = canvas.getContext('2d')
+//     return ctx}
 //==================================================================
 bot.registerCommand('ping', (msg,args) => {
-    console.log(commandLogger(msg))
+    commandLogger(msg)
     return 'Pong!'
 }, { 
     description: 'Pong!',
     fullDescription: 'Used to check if the bot is up.'
 });
 //======================================================================
+// bot.registerCommand('image', (msg,args) => {
+//     commandLogger(msg)
+//     return 'THE COMMAND WORKS NERDDDDDDDDDDD'
+// }, { 
+//     description: 'Image Rendering',
+//     fullDescription: 'Uses Canvas to render an image from the host\'s image folder.'
+// });
+//===================================================================================
+bot.registerCommand('status', (msg,args) => {
+    commandLogger(msg)
+        if (config.adminids.indexOf(msg.author.id) > -1) {
+            bot.editStatus({name: args.join(' ')})
+            return 'Status Updated!'}
+        else {
+            return 'You don\'t have permission to do this.'}
+}, { 
+    description: 'Status editor.',
+    fullDescription: 'Used to change the game the bot is playing.'
+});
+//============================================================================
 bot.registerCommand('time', (msg,args) => {
-    console.log(commandLogger(msg))
+    commandLogger(msg)
     // console.log(testtag + moment().tz(config.defaultTimezone).format())
     // console.log(testtag + moment().tz('Asia/Taipei').format())
     // var tz3 = moment().tz(config.defaultTimezone).format('hmm')
@@ -80,7 +108,7 @@ bot.registerCommand('time', (msg,args) => {
 });
 //==============================================================================
 bot.registerCommand('joke', (msg,args) => {
-    console.log(commandLogger(msg))
+    commandLogger(msg)
     return 'http://i.imgur.com/jlVc2k7.jpg'
 }, { 
     description: 'It\'s Joke',
@@ -88,34 +116,30 @@ bot.registerCommand('joke', (msg,args) => {
 });
 //====================================================================
 bot.registerCommand('todo', (msg ,args) =>{
-    console.log(commandLogger(msg))
+    commandLogger(msg)
     if(config.adminids.indexOf(msg.author.id) > -1){
         client.sadd('todo', args.join(' '))
-        return 'Todo Updated!'
-    }
+        return 'Todo Updated!'}
     else{
-        return 'You don\'t have permission to do this.'
-        }
+        return 'You don\'t have permission to do this.'}
 }, {
     description: 'Adds to todo list!',
     fullDescription: 'Add to my infinitely long todo list!'
 })
 //==================================================================
 bot.registerCommand('echo', (msg ,args) =>{
-    console.log(commandLogger(msg))
+    commandLogger(msg)
     if(config.adminids.indexOf(msg.author.id) > -1){
-        return args.join(' ')
-    }
+        return args.join(' ')}
     else{
-        return 'You don\'t have permission to do this.'
-        }
+        return 'You don\'t have permission to do this.'}
 }, {
     description: 'm!echo',
     fullDescription: 'Echos what you say.'
 })
 //====================================================================================================================================================================================
 bot.registerCommand('stats', (msg ,args) =>{
-    console.log(commandLogger(msg))
+    commandLogger(msg)
     return '__**Bot Information**__:\n' +
     '\n**Version**: ' +
     package.version +
