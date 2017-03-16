@@ -5,6 +5,7 @@ const commandFrame = require('./commands/commandManager')
 const input = new commandFrame()
 const Eris = require('eris')
 log.system(`Initiating`)
+
 class Core {
   constructor (options) {
     this.options = options || {}

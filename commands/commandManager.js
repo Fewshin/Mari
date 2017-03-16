@@ -1,6 +1,9 @@
 const config = require('../config.json')
 const Logger = require('../utilities/Logger')
 const log = new Logger('bgBlue', 'System')
+
+const baseCommand = require('./baseCommand/baseCommand')
+
 class commandFrame {
   constructor (options) {
     this.options = options || {}
@@ -9,11 +12,11 @@ class commandFrame {
     this.sPrefix = config.sysPrefix
   }
   handler (msg) {
-    if (msg.content.startsWith(this.aPrefix)) {
-      log.custom('bgMagenta', 'Admin Command', `${msg.author.username} | ${msg.channel.guild.name} > ${msg.content}`)
+    if (msg.content.startsWith(this.prefix)) {
+      log.custom('bgGreen', 'Base Command', `${msg.author.username} | ${msg.channel.guild.name} > ${msg.content}`)
     }
-    else if (msg.content.startsWith(this.prefix)) {
-      log.custom('bgGreen', 'Base Command', `${msg.author.username} | ${msg.channel.guild.name} > ${msg.content}}`)
+    else if (msg.content.startsWith(this.aPrefix)) {
+      log.custom('bgMagenta', 'Admin Command', `${msg.author.username} | ${msg.channel.guild.name} > ${msg.content}}`)
     }
     else if (msg.content.startsWith(this.sPrefix)) {
       log.custom('bgRed', 'System Command', `${msg.author.username} | ${msg.channel.guild.name} > ${msg.content}`)
