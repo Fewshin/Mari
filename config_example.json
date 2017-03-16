@@ -1,0 +1,10 @@
+    {
+        "token":"Bot TOKEN_HERE",
+        "shardCount":"1",
+        "prefix":"m!",
+        "adminPrefix": "m#",
+        "sysPrefix": "m$",
+        "defaultImageFormat":"gif",
+        "defaultImageSize":"1024",
+        "defaultTimezone":"US/Central"
+    }
