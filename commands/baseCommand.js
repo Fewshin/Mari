@@ -6,8 +6,9 @@ class baseCommand {
   constructor (options) {
     this.options = options || {}
   }
-  processor (msg, tag, args) {
+  processor (msg, bot, tag, args) {
     log.bcommand(msg)
+    //bot.createMessage('287013176086888449', 'Bot is properly being passed.')
   }
 }
 

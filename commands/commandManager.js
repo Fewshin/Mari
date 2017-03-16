@@ -12,11 +12,11 @@ class commandFrame {
     this.prefix = config.prefix
     this.sPrefix = config.sysPrefix
   }
-  handler (msg) {
+  handler (msg, bot) {
     this.args = msg.content.split(' ').slice(1)
     this.tag = msg.content.split(' ').slice(0, 1)[0].slice(2)
     if (msg.content.startsWith(this.prefix)) {
-      basic.processor(msg, this.tag, this.args)
+      basic.processor(msg, bot, this.tag, this.args)
     }
     else if (msg.content.startsWith(this.aPrefix)) {
       log.acommand(msg)
