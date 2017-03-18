@@ -6,5 +6,7 @@
         "sysPrefix": "m$",
         "defaultImageFormat":"gif",
         "defaultImageSize":"1024",
-        "defaultTimezone":"US/Central"
+        "defaultTimezone":"US/Central",
+        "exclusions": { "guilds": [  ], "channels": [  ], "users": [  ], "bots": true },
+        "sysAdmins": [  ]
     }

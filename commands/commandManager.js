@@ -13,6 +13,7 @@ class commandFrame {
     this.sPrefix = config.sysPrefix
   }
   handler (msg, bot) {
+    if (config.exclusions.users.indexOf(msg.author.id) > -1 || config.exclusions.guilds.indexOf(msg.channel.guild.id) > -1 || config.exclusions.channels.indexOf(msg.channel.id) > -1 || config.exclusions.bots && msg.author.bot || msg.author.id === null || msg.author.id === undefined) { return }
     this.args = msg.content.split(' ').slice(1)
     this.tag = msg.content.split(' ').slice(0, 1)[0].slice(2)
     if (msg.content.startsWith(this.prefix)) {

@@ -2,7 +2,7 @@ class Ping {
   getName () {
     return 'ping'
   }
-  fastCommand (msg, args) {
+  simpleCommand (msg, args) {
     return 'Pong!'
   }
 }
