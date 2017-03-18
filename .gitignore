@@ -1,3 +1,5 @@
+# Dependency directory
 node_modules/
+
+# Configuration directory
 config.json
-commands/basicCommands/
