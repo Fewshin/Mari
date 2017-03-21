@@ -29,6 +29,21 @@ class llroll {
         return 'R'
       }
     }
+    function rarityFinderPlus (RNG) {
+      if (RNG === 1) {
+        return 'UR'
+      }
+      else if (RNG <= 5) {
+        return 'SSR'
+      }
+      else {
+        return 'SR'
+      }
+    }
+    function linkRarity (i, RNG) {
+      if (i == 10) { return rarityFinderPlus(RNG) }
+      else { return rarityFinder(RNG) }
+    }
     function collectionChecker (payload) {
       if (payload.translated_collection === null) { return 'Rare' }
       else { return payload.translated_collection }
@@ -40,7 +55,12 @@ class llroll {
       }
       else { return `${payload.rarity}\n${collectionChecker(payload)} ${payload.idol.name}` }
     }
-    if (args[0] === null || args[0] === undefined) { args[0] = 1 }
+    function imageDecider (payload, value) {
+      if (value == 11) { return `http:${payload.round_card_image}` }
+      else { return `http:${payload.card_image}` }
+    }
+    if (args[0] == null || args[0] == undefined) { args[0] = 1 }
+    if (args[0] == '10+1') { args[0] = 11 }
     if (args[0] % 1 === 0 && args[0] < 12) {
       let urlArray = []
       let idolName = []
@@ -50,7 +70,7 @@ class llroll {
       let urCount = []
       for (let i = 0; i < args[0]; i++) {
         let RNG = Math.ceil(Math.random() * 100) 
-        let searchURL = 'http://schoolido.lu/api/cards/?&is_special=False&is_event=False&ordering=random&is_promo=False&rarity=' + rarityFinder(RNG)
+        let searchURL = `http://schoolido.lu/api/cards/?&is_special=False&is_event=False&ordering=random&is_promo=False&rarity=${linkRarity(i, RNG)}`
         request
           .get(searchURL)
           .end((err, res) => {
@@ -58,7 +78,7 @@ class llroll {
             else {
               const payload = res.body.results[0]
               idolName.push(`${collectionChecker(payload)} ${payload.idol.name}`)
-              urlArray.push(`http:${payload.card_image}`)
+              urlArray.push(imageDecider(payload, args[0]))
               if (rarityFinder(RNG) === 'R') { rCount.push('R') }
               else if (rarityFinder(RNG) === 'SR') { srCount.push('SR') }
               else if (rarityFinder(RNG) === 'SSR') { ssrCount.push('SSR') }
@@ -67,7 +87,7 @@ class llroll {
               if (urlArray.length == args[0]) {
                 log.custom('bgCyan', 'urlArray',`[${urlArray}]`)
                 msg.channel.sendTyping().then(render.loveLiveCards(urlArray, function (idolImage) {
-                  bot.createMessage(msg.channel.id, messageMaker(idolName, rCount, srCount, ssrCount, urCount, args[0], payload), { file: idolImage, name: `${payload.translated_collection}_${payload.idol.name}.png` }) 
+                  bot.createMessage(msg.channel.id, messageMaker(idolName, rCount, srCount, ssrCount, urCount, args[0], payload), { file: idolImage, name: `mariBotScout_${args[0]}.png` }) 
                 })) 
               } 
             }
