@@ -3,7 +3,6 @@ const Image = Canvas.Image
 const Logger = require('./Logger')
 const log = new Logger('bgBlue', 'System')
 const request = require('superagent')
-const _ = require('lodash')
 const fs = require('fs')
 
 class canvasManager {
@@ -124,7 +123,45 @@ class canvasManager {
       }
     }
     else if (urlArray.length == 11) {
-      return callback('I don\'t want to fucking write this part mannnnnnnnnn.')
+      let canvas = new Canvas(975, 420)
+      let ctx = canvas.getContext('2d')
+      function inviteChecker () {
+        if (config.inviteLink === null || config.inviteLink === undefined) { return '' }
+        else { return `, invite the bot to your server: ${config.inviteLink}` }
+      }
+      ctx.rect(0, 0, 975, 420)
+      ctx.fillStyle = 'white'
+      ctx.fill()
+      let counter = 0
+      function positioner (i) {
+        if (i == 0) { return [41, 63] }
+        else if (i == 1) { return [190, 63] }
+        else if (i == 2) { return [339, 63] }
+        else if (i == 3) { return [488, 63] }
+        else if (i == 4) { return [637, 63] }
+        else if (i == 5) { return [786, 63] }
+        else if (i == 6) { return [132, 212] }
+        else if (i == 7) { return [281, 212] }
+        else if (i == 8) { return [430, 212] }
+        else if (i == 9) { return [579, 212] }
+        else if (i == 10) { return [728, 212] }
+      }
+      for (let i = 0; i < urlArray.length; i++) {
+        request
+          .get(urlArray[i])
+          .end(function(err, res){
+            if (err) { log.error(err) }
+            let img = new Image()
+            img.onload = function () {
+              ctx.drawImage(img, positioner(i)[0], positioner(i)[1], 130, 130)
+              log.custom('bgCyan', 'Canvas', `${i} Love Live card rendered`)
+              counter++
+              if (counter === urlArray.length) { return callback(canvas.toBuffer(img)) }
+            }
+            img.onerror = function (err) { log.error(err) }
+            img.src = res.body
+          })  
+      }
     }
     else { return }
   }
