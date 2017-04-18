@@ -1,3 +1,8 @@
+const Logger = require('../../utilities/Logger')
+const log = new Logger('bgBlue', 'System')
+const canvasManager = require('../../utilities/canvasManager')
+const render = new canvasManager()
+const request = require('superagent')
 const _ = require('lodash')
 const moment = require('moment-timezone')
 const chalk = require('chalk')

@@ -3,3 +3,6 @@ node_modules/
 
 # Configuration directory
 config.json
+
+# Log File
+log.txt

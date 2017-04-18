@@ -3,6 +3,8 @@ const Logger = require('../../utilities/Logger')
 const log = new Logger('bgBlue', 'System')
 const canvasManager = require('../../utilities/canvasManager')
 const render = new canvasManager()
+const cooldownManager = require('../../utilities/cooldownManager')
+const cooldown = new cooldownManager()
 
 class llroll {
   getName () {
@@ -68,30 +70,36 @@ class llroll {
       let srCount = []
       let ssrCount = []
       let urCount = []
-      for (let i = 0; i < args[0]; i++) {
-        let RNG = Math.ceil(Math.random() * 100) 
-        let searchURL = `http://schoolido.lu/api/cards/?&is_special=False&is_event=False&ordering=random&is_promo=False&rarity=${linkRarity(i, RNG)}`
-        request
-          .get(searchURL)
-          .end((err, res) => {
-            if (err) { log.error(err) ; bot.createMessage(msg.channel.id, 'There was an error, contact Fewshin#5253 with the details. ```' + err.message + '```') }
-            else {
-              const payload = res.body.results[0]
-              idolName.push(`${collectionChecker(payload)} ${payload.idol.name}`)
-              urlArray.push(imageDecider(payload, args[0]))
-              if (rarityFinder(RNG) === 'R') { rCount.push('R') }
-              else if (rarityFinder(RNG) === 'SR') { srCount.push('SR') }
-              else if (rarityFinder(RNG) === 'SSR') { ssrCount.push('SSR') }
-              else if (rarityFinder(RNG) === 'UR') { urCount.push('UR') }
-              else { return }
-              if (urlArray.length == args[0]) {
-                log.custom('bgCyan', 'urlArray',`[${urlArray}]`)
-                msg.channel.sendTyping().then(render.loveLiveCards(urlArray, function (idolImage) {
-                  bot.createMessage(msg.channel.id, messageMaker(idolName, rCount, srCount, ssrCount, urCount, args[0], payload), { file: idolImage, name: `mariBotScout_${args[0]}.png` }) 
-                })) 
-              } 
-            }
-          })
+      if (!cooldown.cooldownChecker(msg, tag)[0] || cooldown.cooldownChecker(msg, tag) == undefined || cooldown.cooldownChecker(msg, tag) == null) {
+        cooldown.cooldownMaker(args[0] * 10, msg, tag)
+        for (let i = 0; i < args[0]; i++) {
+          let RNG = Math.ceil(Math.random() * 100) 
+          let searchURL = `http://schoolido.lu/api/cards/?&is_special=False&is_event=False&ordering=random&is_promo=False&rarity=${linkRarity(i, RNG)}`
+          request
+            .get(searchURL)
+            .end((err, res) => {
+              if (err) { log.error(err) ; bot.createMessage(msg.channel.id, 'There was an error, contact Fewshin#5253 with the details. ```' + err.message + '```') }
+              else {
+                const payload = res.body.results[0]
+                idolName.push(`${collectionChecker(payload)} ${payload.idol.name}`)
+                urlArray.push(imageDecider(payload, args[0]))
+                if (rarityFinder(RNG) === 'R') { rCount.push('R') }
+                else if (rarityFinder(RNG) === 'SR') { srCount.push('SR') }
+                else if (rarityFinder(RNG) === 'SSR') { ssrCount.push('SSR') }
+                else if (rarityFinder(RNG) === 'UR') { urCount.push('UR') }
+                else { return }
+                if (urlArray.length == args[0]) {
+                  log.custom('bgCyan', 'urlArray',`[${urlArray}]`)
+                  msg.channel.sendTyping().then(render.loveLiveCards(urlArray, msg.author.id, tag, function (idolImage) {
+                    bot.createMessage(msg.channel.id, messageMaker(idolName, rCount, srCount, ssrCount, urCount, args[0], payload), { file: idolImage, name: `mariBotScout_${args[0]}.png` }) 
+                  })) 
+                } 
+              }
+            })
+        }
+      }
+      else {
+        bot.createMessage(msg.channel.id, `Cooldown is active, ${cooldown.cooldownChecker(msg, tag)[1]} seconds remain.`)
       }
     }
   }  
