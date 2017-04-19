@@ -1,5 +1,5 @@
 ## Config Example    
-```json
+```js
     {
         "token":"Bot TOKEN_HERE", // <--- Out the token here, leave the Bot part in or else it won't boot.
         "shardCount":"1", //<--- How many instances of the bot you want to run. Discord only allows a maximum of 4000 guilds per shard so ideally this number is: Math.ceil(num of guilds / 4000) 

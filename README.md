@@ -7,6 +7,8 @@ Currently a WIP, bot base modeled after Sylphy by pyraxo, can be found [here](ht
   
   Then just run it! Command making details can be found [here](commands/how2command.md).
 
+  [Invite](https://discordapp.com/oauth2/authorize?&client_id=234246082668789762&scope=bot) the bot!
+
 ## License
     Mari - Just another discord bot with an anime avatar.
     Copyright (C) 2017  Fewshin

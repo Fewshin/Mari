@@ -90,7 +90,7 @@ class llroll {
                 else { return }
                 if (urlArray.length == args[0]) {
                   log.custom('bgCyan', 'urlArray',`[${urlArray}]`)
-                  msg.channel.sendTyping().then(render.loveLiveCards(urlArray, msg.author.id, tag, function (idolImage) {
+                  msg.channel.sendTyping().then(render.loveLiveCards(urlArray, function (idolImage) {
                     bot.createMessage(msg.channel.id, messageMaker(idolName, rCount, srCount, ssrCount, urCount, args[0], payload), { file: idolImage, name: `mariBotScout_${args[0]}.png` }) 
                   })) 
                 } 

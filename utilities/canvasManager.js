@@ -9,7 +9,7 @@ class canvasManager {
   constructor (options) {
     this.options = options || {}
   }
-  loveLiveCards (urlArray, id, tag, callback) {
+  loveLiveCards (urlArray, callback) {
     if (urlArray.length === 1) {
       request
         .get(urlArray[0])
