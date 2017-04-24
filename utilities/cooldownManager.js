@@ -1,3 +1,4 @@
+const config = require('../config.json')
 const cooldownMap = new Map()
 
 class cooldownManager {
@@ -8,7 +9,8 @@ class cooldownManager {
     cooldownMap.set(`${msg.author.id}-${command}`, Date.now() + (count * 1000))
   }
   cooldownChecker (msg, command) {
-    if (cooldownMap.has(`${msg.author.id}-${command}`)) {
+    if (config.sysAdmins.indexOf(msg.author.id) > -1 && !config.exclusions.adminCooldown) { return [false, null] }
+    else if (cooldownMap.has(`${msg.author.id}-${command}`)) {
       if (cooldownMap.get(`${msg.author.id}-${command}`) > Date.now()) {
         return [true, ((cooldownMap.get(`${msg.author.id}-${command}`) - Date.now()) / 1000)]
       }

@@ -11,7 +11,7 @@
         "defaultTimezone":"US/Central", //<--- Timezone that everything is logged in. Timezone list with proper formatting can be found here: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
         "redisPort":"6379", //<--- Port used for the Redis DB, this is the default.
         "redisIP":"127.0.0.1", //<--- Host used for the Redis DB, this is the default.
-        "exclusions": { "guilds": [  ], "channels": [  ], "users": [  ], "bots": true }, //<--- Location to put IDs of people, guilds, or channels you don't want using the bot.
+        "exclusions": { "guilds": [  ], "channels": [  ], "users": [  ], "bots": true, "adminCooldown": false }, //<--- Location to put IDs of people, guilds, or channels you don't want using the bot. Also exclude admins from cooldowns.
         "sysAdmins": [  ] //<--- IDs for users able to use system commands. 
     }
 ```

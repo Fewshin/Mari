@@ -61,6 +61,12 @@ class llroll {
       if (value == 11) { return `http:${payload.round_card_image}` }
       else { return `http:${payload.card_image}` }
     }
+    function unitDecider (args) {
+      if (args[1] == 'muse' || args[1] == 'μ\'s' || args[1] == 'Muse') { return '%CE%BC%27s' }
+      else if (args[1] == 'aqours' || args[1] == 'aquors' || args[1] == 'Aquors' || args[1] == 'Aqours') { return 'aqours' }
+      else if (args[1] == undefined || args[1] == null) { return 'aqours,%CE%BC%27s' }
+      else { return 'aqours,%CE%BC%27s' }
+    }
     if (args[0] == null || args[0] == undefined) { args[0] = 1 }
     if (args[0] == '10+1') { args[0] = 11 }
     if (args[0] % 1 === 0 && args[0] < 12) {
@@ -74,7 +80,7 @@ class llroll {
         cooldown.cooldownMaker(args[0] * 10, msg, tag)
         for (let i = 0; i < args[0]; i++) {
           let RNG = Math.ceil(Math.random() * 100) 
-          let searchURL = `http://schoolido.lu/api/cards/?&is_special=False&is_event=False&ordering=random&is_promo=False&rarity=${linkRarity(i, RNG)}`
+          let searchURL = `http://schoolido.lu/api/cards/?&is_special=False&is_event=False&ordering=random&is_promo=False&rarity=${linkRarity(i, RNG)}&idol_main_unit=${unitDecider(args)}`
           request
             .get(searchURL)
             .end((err, res) => {
@@ -83,10 +89,10 @@ class llroll {
                 const payload = res.body.results[0]
                 idolName.push(`${collectionChecker(payload)} ${payload.idol.name}`)
                 urlArray.push(imageDecider(payload, args[0]))
-                if (rarityFinder(RNG) === 'R') { rCount.push('R') }
-                else if (rarityFinder(RNG) === 'SR') { srCount.push('SR') }
-                else if (rarityFinder(RNG) === 'SSR') { ssrCount.push('SSR') }
-                else if (rarityFinder(RNG) === 'UR') { urCount.push('UR') }
+                if (linkRarity(i, RNG) === 'R') { rCount.push('R') }
+                else if (linkRarity(i, RNG) === 'SR') { srCount.push('SR') }
+                else if (linkRarity(i, RNG) === 'SSR') { ssrCount.push('SSR') }
+                else if (linkRarity(i, RNG) === 'UR') { urCount.push('UR') }
                 else { return }
                 if (urlArray.length == args[0]) {
                   log.custom('bgCyan', 'urlArray',`[${urlArray}]`)

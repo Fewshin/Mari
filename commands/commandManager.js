@@ -1,4 +1,5 @@
 const config = require('../config.json')
+
 const Logger = require('../utilities/Logger')
 const log = new Logger('bgBlue', 'System')
 
