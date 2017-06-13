@@ -1,6 +1,8 @@
 const config = require('./config.json')
 const Logger = require('./utilities/Logger')
 const log = new Logger('bgBlue', 'System')
+const chronManager = require('./utilities/chronManager')
+const chron = new chronManager()
 const commandFrame = require('./commands/commandManager')
 const input = new commandFrame()
 const Eris = require('eris')
@@ -21,6 +23,7 @@ class Core {
     this.bot.on('error', err => { log.error(`${err}`) ; if (!err) { return } })
     this.bot.on('messageCreate', (msg) => { input.handler(msg, this.bot)})
     this.bot.connect()
+    chron.loveLiveReset(this.bot)
   }
 }
 
