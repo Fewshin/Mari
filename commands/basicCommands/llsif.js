@@ -28,16 +28,20 @@ class llsif {
     }
     function setChecker (args, payload) {
       if (args[2] === null || args[2] === undefined) {
-        return [[`http${payload.results[0].card_image}`, `http${payload.results[1].card_image}`, `http${payload.results[2].card_image}`, `http${payload.results[3].card_image}`, `http${payload.results[4].card_image}`, `http${payload.results[5].card_image}`, `http${payload.results[6].card_image}`, `http${payload.results[7].card_image}`, `http${payload.results[8].card_image}`], 90]
+        return [[`http:${payload.results[0].card_image}`, `http:${payload.results[1].card_image}`, `http:${payload.results[2].card_image}`, `http:${payload.results[3].card_image}`, `http:${payload.results[4].card_image}`, `http:${payload.results[5].card_image}`, `http:${payload.results[6].card_image}`, `http:${payload.results[7].card_image}`, `http:${payload.results[8].card_image}`], 90]
       }
       else if (args[2] == 'UR') {
         let urArray = []
         for (let i = 0; i < 9; i++) {  
           if (payload.results[i].rarity == 'UR') {
-            urArray.push(`http${payload.results[i].card_image}`)
+            urArray.push(`http:${payload.results[i].card_image}`)
+            urArray.push(`http:${payload.results[i].card_idolized_image}`)
           }
-          if (i == 9) { return [urArray, 30] }
+          if (i == 8) { return [urArray, 40] }
         }
+      }
+      else if (args[2] == 'idolized') {
+        return [[`http:${payload.results[0].card_idolized_image}`, `http:${payload.results[1].card_idolized_image}`, `http:${payload.results[2].card_idolized_image}`, `http:${payload.results[3].card_idolized_image}`, `http:${payload.results[4].card_idolized_image}`, `http:${payload.results[5].card_idolized_image}`, `http:${payload.results[6].card_idolized_image}`, `http:${payload.results[7].card_idolized_image}`, `http:${payload.results[8].card_idolized_image}`], 90]
       }
     }
     function collectionChecker (payload) {
@@ -67,9 +71,9 @@ class llsif {
             if (err) { log.error(err) ; bot.createMessage(msg.channel.id, `${args[1]} isn't a valid set.`) ; cooldown.cooldownMaker(5, msg, tag) }
             else if (res.body.results.length < 1) { bot.createMessage(msg.channel.id, `${args[1]} isn't a valid set.`) ; cooldown.cooldownMaker(5, msg, tag) }
             else {
-              cooldown.cooldownMaker(setChecker(res.body, args)[1], msg, tag)
               const payload = res.body
-              msg.channel.sendTyping().then(render.loveLiveCards(setChecker(res.body, args)[0], function (idolImage) {
+              cooldown.cooldownMaker(setChecker(args, payload)[1], msg, tag)
+              msg.channel.sendTyping().then(render.loveLiveCards(setChecker(args, payload)[0], function (idolImage) {
                 bot.createMessage(msg.channel.id, `testo`, { file: idolImage, name: `mariBotSetSearch_${args[1]}.png` }) 
               })) 
             }
