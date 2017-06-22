@@ -11,7 +11,7 @@ class llsif {
     return 'llsif'
   }
   getDesc () {
-    return { simple: 'Searches the Schoolido.lu API', advanced: 'Searches the Schoolido.lu API for specific cards', usage: 'm!llsif [ Card ID | Set | Idol ]' }
+    return { simple: 'Searches the Schoolido.lu API', advanced: 'Searches the Schoolido.lu API for specific cards', usage: 'llsif [ Card ID | Set ] < Set Name > < UR >', aliases: ['sif', 'sic'] }
   }
   simpleCommand (msg, args) {
     return null

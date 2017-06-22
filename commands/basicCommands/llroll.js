@@ -11,7 +11,7 @@ class llroll {
     return 'llroll'
   }
   getDesc () {
-    return { simple: 'Roll Love Live cards!', advanced: 'Roll for Love Live cards!', usage: 'm!llroll <Number between 1-10 or 10 + 1>' }
+    return { simple: 'Roll Love Live cards!', advanced: 'Roll for Love Live cards!', usage: 'llroll < Number between 1-10 or 10 + 1 > < aqours or muse >', aliases: ['roll'] }
   }
   simpleCommand (msg, args) {
     return null

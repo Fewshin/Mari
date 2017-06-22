@@ -7,8 +7,8 @@ class itsJoke { //<--- Name the class file, in theory it can be whatever you wan
   getName () { //<--- This is where you define what will activate the command. If someone were to type ${config.prefix}joke in chat the command would activate.
     return 'joke'
   }
-  getDesc () { //<--- This doesn't do anything quite yet although it will be eventually used for the help command. I advise you include this category.
-    return { simple: 'It\'s Joke!', advanced: 'Used for jokes.', usage: null }
+  getDesc () { //<--- Used for help command info. Also used to determine aliases. Please note that the predetermined prefixes are already tacked on.
+    return { simple: 'It\'s Joke!', advanced: 'Used for jokes.', usage: 'joke', aliases: ['None'] }
   }
   simpleCommand (msg, args) { //<--- This part is for simpler commands where you want to return a simple output. For example "return 'Pong'" would make the bot say Pong when triggered. If you don't want to do this return null.
     return null

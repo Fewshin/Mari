@@ -18,7 +18,6 @@ class commandFrame {
   }
   handler (msg, bot) {
     if (config.exclusions.users.indexOf(msg.author.id) > -1 || config.exclusions.guilds.indexOf(msg.channel.guild.id) > -1 || config.exclusions.channels.indexOf(msg.channel.id) > -1 || config.exclusions.bots && msg.author.bot || msg.author.id === null || msg.author.id === undefined || msg.author.id === bot.user.id) { return }
-    this.channel = msg.channel.id
     this.args = msg.content.split(' ').slice(1)
     this.tag = msg.content.split(' ').slice(0, 1)[0].slice(this.prefix.length)
     if (msg.channel.id == undefined) { 
@@ -27,7 +26,7 @@ class commandFrame {
       } )
     }
     if (msg.content.startsWith(this.prefix)) {
-      basic.processor(msg, bot, this.tag, this.args, this.channel)
+      basic.processor(msg, bot, this.tag, this.args, this.prefix)
     }
     else if (msg.content.startsWith(this.aPrefix)) {
       log.acommand(msg)

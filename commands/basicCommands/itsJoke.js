@@ -5,7 +5,7 @@ class itsJoke {
     return 'joke'
   }
   getDesc () {
-    return { simple: 'It\'s Joke!', advanced: 'Used for jokes.', usage: null }
+    return { simple: 'It\'s Joke!', advanced: 'Used for jokes.', usage: 'joke', aliases: ['None'] }
   }
   simpleCommand (msg, args) {
     return null
