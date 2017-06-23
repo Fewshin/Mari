@@ -19,9 +19,10 @@ class Core {
   botOn () {
     if (this.token === null || this.token === undefined) { log.error(`No Token`) }
     this.bot = new Eris.Client(this.token, {autoreconnect: true, maxShards: this.shardCount, defaultImageSize: this.imageSize, defaultImageFormat: this.imageFormat})
+    this.bot.on('shardReady', id => { log.system(`Shard ${id} is active.`) })
     this.bot.on('ready', () => { log.system(`Bot is on`) })
     this.bot.on('error', err => { log.error(`${err}`) ; if (!err) { return } })
-    this.bot.on('messageCreate', (msg) => { input.handler(msg, this.bot)})
+    this.bot.on('messageCreate', message => { input.handler(message, this.bot)})
     this.bot.connect()
     chron.loveLiveReset(this.bot)
   }
