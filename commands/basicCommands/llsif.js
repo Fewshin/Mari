@@ -5,6 +5,7 @@ const canvasManager = require('../../utilities/canvasManager')
 const render = new canvasManager()
 const cooldownManager = require('../../utilities/cooldownManager')
 const cooldown = new cooldownManager()
+const cooldownCount = require('../basicCooldowns.json')
 
 class llsif {
   getName () {
@@ -28,7 +29,7 @@ class llsif {
     }
     function setChecker (args, payload) {
       if (args[2] === null || args[2] === undefined) {
-        return [[`http:${payload.results[0].card_image}`, `http:${payload.results[1].card_image}`, `http:${payload.results[2].card_image}`, `http:${payload.results[3].card_image}`, `http:${payload.results[4].card_image}`, `http:${payload.results[5].card_image}`, `http:${payload.results[6].card_image}`, `http:${payload.results[7].card_image}`, `http:${payload.results[8].card_image}`], 90]
+        return [[`http:${payload.results[0].card_image}`, `http:${payload.results[1].card_image}`, `http:${payload.results[2].card_image}`, `http:${payload.results[3].card_image}`, `http:${payload.results[4].card_image}`, `http:${payload.results[5].card_image}`, `http:${payload.results[6].card_image}`, `http:${payload.results[7].card_image}`, `http:${payload.results[8].card_image}`], cooldownCount.llsif.set]
       }
       else if (args[2] == 'UR') {
         let urArray = []
@@ -37,11 +38,11 @@ class llsif {
             urArray.push(`http:${payload.results[i].card_image}`)
             urArray.push(`http:${payload.results[i].card_idolized_image}`)
           }
-          if (i == 8) { return [urArray, 40] }
+          if (i == 8) { return [urArray, cooldownCount.llsif.UR] }
         }
       }
       else if (args[2] == 'idolized') {
-        return [[`http:${payload.results[0].card_idolized_image}`, `http:${payload.results[1].card_idolized_image}`, `http:${payload.results[2].card_idolized_image}`, `http:${payload.results[3].card_idolized_image}`, `http:${payload.results[4].card_idolized_image}`, `http:${payload.results[5].card_idolized_image}`, `http:${payload.results[6].card_idolized_image}`, `http:${payload.results[7].card_idolized_image}`, `http:${payload.results[8].card_idolized_image}`], 90]
+        return [[`http:${payload.results[0].card_idolized_image}`, `http:${payload.results[1].card_idolized_image}`, `http:${payload.results[2].card_idolized_image}`, `http:${payload.results[3].card_idolized_image}`, `http:${payload.results[4].card_idolized_image}`, `http:${payload.results[5].card_idolized_image}`, `http:${payload.results[6].card_idolized_image}`, `http:${payload.results[7].card_idolized_image}`, `http:${payload.results[8].card_idolized_image}`], cooldownCount.llsif.set]
       }
     }
     function collectionChecker (payload) {
@@ -53,9 +54,9 @@ class llsif {
         request
           .get(`http://schoolido.lu/api/cards/${args[0]}`)
           .end((err, res) => {
-            if (err) { log.error(err) ; bot.createMessage(msg.channel.id, `${args[0]} isn't a valid ID.`) ; cooldown.cooldownMaker(5, msg, tag) }
+            if (err) { log.error(err) ; bot.createMessage(msg.channel.id, `${args[0]} isn't a valid ID.`) ; cooldown.cooldownMaker(cooldownCount.llsif.fail, msg, tag) }
             else {
-              cooldown.cooldownMaker(20, msg, tag)
+              cooldown.cooldownMaker(cooldownCount.llsif.id, msg, tag)
               const payload = res.body
               msg.channel.sendTyping().then(render.loveLiveCards(idChecker(payload), function (idolImage) {
                 bot.createMessage(msg.channel.id, `Card ID: ${payload.id}\n${collectionChecker(payload)} ${payload.idol.name}\n<${payload.website_url}>`, { file: idolImage, name: `mariBotIDSearch_${args[0]}.png` }) 
@@ -68,13 +69,13 @@ class llsif {
         request
           .get(`http://schoolido.lu/api/cards/?&is_special=False&is_event=False&translated_collection=${args[1]}`)
           .end((err, res) => {
-            if (err) { log.error(err) ; bot.createMessage(msg.channel.id, `${args[1]} isn't a valid set.`) ; cooldown.cooldownMaker(5, msg, tag) }
-            else if (res.body.results.length < 1) { bot.createMessage(msg.channel.id, `${args[1]} isn't a valid set.`) ; cooldown.cooldownMaker(5, msg, tag) }
+            if (err) { log.error(err) ; bot.createMessage(msg.channel.id, `${args[1]} isn't a valid set.`) ; cooldown.cooldownMaker(cooldownCount.llsif.fail, msg, tag) }
+            else if (res.body.results.length < 1) { bot.createMessage(msg.channel.id, `${args[1]} isn't a valid set.`) ; cooldown.cooldownMaker(cooldownCount.llsif.fail, msg, tag) }
             else {
               const payload = res.body
               cooldown.cooldownMaker(setChecker(args, payload)[1], msg, tag)
               msg.channel.sendTyping().then(render.loveLiveCards(setChecker(args, payload)[0], function (idolImage) {
-                bot.createMessage(msg.channel.id, `testo`, { file: idolImage, name: `mariBotSetSearch_${args[1]}.png` }) 
+                bot.createMessage(msg.channel.id, ``, { file: idolImage, name: `mariBotSetSearch_${args[1]}.png` }) 
               })) 
             }
           })

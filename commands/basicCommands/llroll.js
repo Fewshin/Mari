@@ -5,6 +5,7 @@ const canvasManager = require('../../utilities/canvasManager')
 const render = new canvasManager()
 const cooldownManager = require('../../utilities/cooldownManager')
 const cooldown = new cooldownManager()
+const cooldownCount = require('../basicCooldowns.json')
 
 class llroll {
   getName () {
@@ -77,7 +78,7 @@ class llroll {
       let ssrCount = []
       let urCount = []
       if (!cooldown.cooldownChecker(msg, tag)[0] || cooldown.cooldownChecker(msg, tag) == undefined || cooldown.cooldownChecker(msg, tag) == null) {
-        cooldown.cooldownMaker(args[0] * 10, msg, tag)
+        cooldown.cooldownMaker(args[0] * cooldownCount.llroll.roll, msg, tag)
         for (let i = 0; i < args[0]; i++) {
           let RNG = Math.ceil(Math.random() * 100) 
           let searchURL = `http://schoolido.lu/api/cards/?&is_special=False&is_event=False&ordering=random&is_promo=False&rarity=${linkRarity(i, RNG)}&idol_main_unit=${unitDecider(args)}`
