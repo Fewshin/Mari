@@ -2,7 +2,8 @@
 ```js
     {
         "token":"Bot TOKEN_HERE", // <--- Out the token here, leave the Bot part in or else it won't boot.
-        "shardCount":"1", //<--- How many instances of the bot you want to run. Discord only allows a maximum of 4000 guilds per shard so ideally this number is: Math.ceil(num of guilds / 4000) 
+        "shardCount":"1", //<--- How many instances of the bot you want to run. Discord only allows a maximum of 4000 guilds per shard so ideally this number is: Math.ceil(num of guilds / 4000). Please note that if you're using a selfbot this number must be 1.
+        "selfBot": false, //<--- Determines whether or not the bot is a self bot. 
         "prefix":"m!", //<--- The standard prefix for the baseCommands.
         "adminPrefix": "m#", //<--- Commands for server management, require specific server permissions depending on the command.
         "sysPrefix": "m$", //<--- Commands used to assist in development of the bot. Usually you don't want users using these.
