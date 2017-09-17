@@ -6,3 +6,7 @@ config.json
 
 # Log File
 log.txt
+
+# Personal launch file for MongoDB
+mongo.bat
+mongod.bat
