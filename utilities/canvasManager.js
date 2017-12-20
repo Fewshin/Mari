@@ -1,5 +1,4 @@
-const Canvas = require('canvas')
-const Image = Canvas.Image
+const { createCanvas, Image } = require('canvas')
 const Logger = require('./Logger')
 const log = new Logger('bgBlue', 'System')
 const request = require('superagent')
@@ -19,7 +18,7 @@ class canvasManager {
         })
     }
     else if (urlArray.length % 2 == 0 && urlArray.length < 12 && urlArray.length != 2) {
-      let canvas = new Canvas((urlArray.length / 2) * 512 , 1440)
+      let canvas = createCanvas((urlArray.length / 2) * 512 , 1440)
       let ctx = canvas.getContext('2d')
       let counter = 0
       for (let i = 0; i < urlArray.length; i++) {
@@ -40,7 +39,7 @@ class canvasManager {
       }
     }
     else if (urlArray.length == 2) {
-      let canvas = new Canvas(1024, 720)
+      let canvas = createCanvas(1024, 720)
       let ctx = canvas.getContext('2d')
       let counter = 0
       for (let i = 0; i < urlArray.length; i++) {
@@ -66,7 +65,7 @@ class canvasManager {
         else if (urlArray.length == 5) { return 1536 }
         else if (urlArray.length == 7) { return 2048 }
       }
-      let canvas = new Canvas(widthManager(), 1440)
+      let canvas = createCanvas(widthManager(), 1440)
       let ctx = canvas.getContext('2d')
       let counter = 0
       function positioner (i) {
@@ -96,7 +95,7 @@ class canvasManager {
       }
     }
     else if (urlArray.length == 9) {
-      let canvas = new Canvas(1536, 2160)
+      let canvas = createCanvas(1536, 2160)
       let ctx = canvas.getContext('2d')
       let counter = 0
       function positioner (i) {
@@ -123,7 +122,7 @@ class canvasManager {
       }
     }
     else if (urlArray.length == 11) {
-      let canvas = new Canvas(975, 420)
+      let canvas = createCanvas(975, 420)
       let ctx = canvas.getContext('2d')
       function inviteChecker () {
         if (config.inviteLink === null || config.inviteLink === undefined) { return '' }
