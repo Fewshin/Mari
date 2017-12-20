@@ -6,15 +6,15 @@ class chronManager {
   constructor (options) {
     this.options = options || {}
   }
-  loveLiveReset (bot) {
+  loveLiveReset (bot, resetChannel) {
     let rule = new schedule.RecurrenceRule()
     rule.minute = 0
     let j = schedule.scheduleJob(rule, function () {
       if (moment().tz('Zulu').format('h A') === '12 AM'){
-        bot.createMessage('242538149190959115', '**ENG daily reset just happened!**\n' +
+        bot.createMessage(resetChannel, '**ENG daily reset just happened!**\n' +
         'Be sure you grab your daily and first song played gem!')}
       else if (moment().tz('Asia/Tokyo').format('h A') === '12 AM') {
-        bot.createMessage('242538149190959115', '**JPN daily reset just happened!**\n' +
+        bot.createMessage(resetChannel, '**JPN daily reset just happened!**\n' +
         'Be sure you grab your daily and first song played gem!')}
     })
   }

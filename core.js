@@ -25,7 +25,7 @@ class Core {
     this.bot.on('messageCreate', message => { input.handler(message, this.bot) })
     this.bot.on('guildCreate', guild => { bot.createMessage(guild.defaultChannel, config.joinMessage) })
     this.bot.connect()
-    if (this.shardID = 0) { chron.loveLiveReset(this.bot) }
+    //if (Object.keys(this.bot.guildShardMap).indexOf(this.bot.getChannel(config.notifications.channel).guild.id) > -1 && config.notifications.loveLive) { chron.loveLiveReset(this.bot, config.notifications.channel) }
   }
 }
 
