@@ -16,11 +16,11 @@ class Eval {
     return null
   }
   command(msg, bot, tag, args) {
-    function evaluate (msg, args) {
+    function evaluate (args) {
       try { return eval(args.join(' ')) }
       catch (err) { return err.message }
     }
-    bot.createMessage(msg.channel.id, '```' + evaluate(msg, args) + '```')
+    bot.createMessage(msg.channel.id, '```' + evaluate(args) + '```')
   }
 }
 

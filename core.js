@@ -23,7 +23,7 @@ class Core {
     //this.bot.on('ready', () => { log.system(`Bot is on`) })
     this.bot.on('error', err => { log.error(`${err}`) ; if (!err) { return } })
     this.bot.on('messageCreate', message => { input.handler(message, this.bot) })
-    this.bot.on('guildCreate', guild => { bot.createMessage(guild.defaultChannel, config.joinMessage) })
+    this.bot.on('guildCreate', guild => { this.bot.createMessage(guild.defaultChannel, config.joinMessage) })
     this.bot.connect()
     //if (Object.keys(this.bot.guildShardMap).indexOf(this.bot.getChannel(config.notifications.channel).guild.id) > -1 && config.notifications.loveLive) { chron.loveLiveReset(this.bot, config.notifications.channel) }
   }
