@@ -16,7 +16,8 @@ class safebooru {
     return null
   }
   command (msg, bot, tag, args) { 
-    if (!cooldown.cooldownChecker(msg, tag)[0] || cooldown.cooldownChecker(msg, tag) == undefined || cooldown.cooldownChecker(msg, tag) == null) {
+    if (args[0] == null || args[0] == undefined) { bot.createMessage(msg.channel.id, `Error with search term.`) }
+    else if (!cooldown.cooldownChecker(msg, tag)[0] || cooldown.cooldownChecker(msg, tag) == undefined || cooldown.cooldownChecker(msg, tag) == null) {
     request
       .get(`http://safebooru.org/index.php?page=dapi&s=post&q=index&tags=${args[0]}&json=1`)
       .end((err, res) => {
