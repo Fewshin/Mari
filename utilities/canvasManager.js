@@ -155,7 +155,7 @@ class canvasManager {
               ctx.drawImage(img, positioner(i)[0], positioner(i)[1], 130, 130)
               log.custom('bgCyan', 'Canvas', `${i} Love Live card rendered`)
               counter++
-              if (counter === urlArray.length) { return callback(canvas.toBuffer(img)) }
+              if (counter === urlArray.length) { return callback(canvas.toBuffer()) }
             }
             img.onerror = function (err) { log.error(err) }
             img.src = res.body
